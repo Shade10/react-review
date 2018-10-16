@@ -3,9 +3,9 @@ import React, { Component } from "react";
 class App extends Component {
   state = {
     tasks: [
-      { className: "completed", title: "Be some" },
-      { className: "editing", title: "Home" },
-      { className: "", title: "Learn" }
+      { id: 1, className: "completed", title: "Be some" },
+      { id: 2, className: "editing", title: "Home" },
+      { id: 3, className: "", title: "Learn" }
     ],
     taskTitle: "",
     isDone: "",
@@ -34,10 +34,19 @@ class App extends Component {
   addTask = title => {
     this.setState({
       tasks: this.state.tasks.concat({
+        id: Date.now(),
         title: title
       })
     });
   };
+
+  removeTask = taskId => {
+    this.setState({
+      tasks: this.state.tasks.filter(
+        task => taskId !== task.id
+      )
+    })
+  }
 
   render() {
     return (
@@ -65,11 +74,11 @@ class App extends Component {
             <label for="toggle-all" />
             <ul className="todo-list">
               {this.state.tasks.map(task => (
-                <li className={task.className}>
+                <li className={task.className} key={task.id}>
                   <div className="view">
                     <input className="toggle" type="checkbox" />
                     <label>{task.title}</label>
-                    <button className="destroy" />
+                    <button className="destroy" onClick={() => this.removeTask(task.id)}/>
                   </div>
                   <input className="edit" value={task.title} />
                 </li>
