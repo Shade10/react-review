@@ -87,3 +87,13 @@ zadań, ale niech dane, z których będzie ona korzystać pochodzą ze ścieżki
 
 ### Wskazówki:
 - niech na stronie `localhost:3000` pojawi się lista 2 linków `Private tasks` oraz `Public tasks` - niech prowadzą do odpowiednich widoków
+
+## 11. (Z dedykacją dla Remiego) Dodaj panel ustawień użytkownika
+
+### Wskazówki:
+- panel ma być dostępny pod adresem `localhost:3000/settings`
+- użytkownik będzie mógł ustawić:
+  - kolor tła aplikacji
+  - swój pseudonim, który powinien od tego czasu wyświetlać się na górze strony po zalogowaniu
+  - lokalizację (współrzędne lat i lon), które sprawią, że pod adresem `localhost:3000/where-am-i` pojawi się mapa z markerem ustawionym w tym miejscu
+  (tutaj bonus: lokalizację można też odczytać z Geolocation API w przeglądarce)
