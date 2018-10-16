@@ -31,6 +31,12 @@ class App extends Component {
     });
   };
 
+  handleClassNameChange = () => {
+    this.setState({
+      className: "editing"
+    })
+  }
+
   toggleTaskDone = taskId => {
     this.setState({
       tasks: this.state.tasks.map(
@@ -45,7 +51,7 @@ class App extends Component {
     });
   };
 
-  addTask = (title, count) => {
+  addTask = title => {
     this.setState({
       tasks: this.state.tasks.concat({
         id: Date.now(),
@@ -94,6 +100,7 @@ class App extends Component {
                       className="toggle"
                       type="checkbox"
                       onClick={() => this.toggleTaskDone(task.id)}
+                      onDoubleClick={() => this.handleClassNameChange}
                     />
                     {task.isDone ? (
                       <label>
