@@ -60,12 +60,6 @@ class App extends Component {
     });
   };
 
-  // counter = count => {
-  //   this.setState({
-  //     count: this.state.task.length()
-  //   });
-  // };
-
   render() {
     const count = this.state.tasks.length;
 
