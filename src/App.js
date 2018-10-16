@@ -7,11 +7,13 @@ class App extends Component {
         <div>
           <header className="header">
             <h1>todos</h1>
-            <input
-              className="new-todo"
-              placeholder="What needs to be done?"
-              value=""
-            />
+            <form>
+              <input
+                className="new-todo"
+                placeholder="What needs to be done?"
+                value=""
+              />
+            </form>
           </header>
           <section className="main">
             <input id="toggle-all" className="toggle-all" type="checkbox" />
