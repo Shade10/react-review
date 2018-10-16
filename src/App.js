@@ -3,12 +3,12 @@ import React, { Component } from "react";
 class App extends Component {
   state = {
     tasks: [
-      { id: 1, className: "completed", title: "Be some" },
-      { id: 2, className: "editing", title: "Home" },
-      { id: 3, className: "", title: "Learn" }
+      { id: 1, className: "completed", title: "Be some", isDone: false },
+      { id: 2, className: "editing", title: "Home", isDone: false },
+      { id: 3, className: "", title: "Learn", isDone: false }
     ],
     taskTitle: "",
-    isDone: "",
+    count: 0,
     error: null
   };
 
@@ -21,7 +21,7 @@ class App extends Component {
       return;
     }
     // this.props.addTaskFunction(this.state.taskTitle);
-    this.addTask(this.state.taskTitle)
+    this.addTask(this.state.taskTitle);
     this.setState({ taskTitle: "", error: null });
   };
 
@@ -31,7 +31,21 @@ class App extends Component {
     });
   };
 
-  addTask = title => {
+  toggleTaskDone = taskId => {
+    this.setState({
+      tasks: this.state.tasks.map(
+        task =>
+          taskId !== task.id
+            ? task
+            : {
+                ...task,
+                isDone: !task.isDone
+              }
+      )
+    });
+  };
+
+  addTask = (title, count) => {
     this.setState({
       tasks: this.state.tasks.concat({
         id: Date.now(),
@@ -42,13 +56,19 @@ class App extends Component {
 
   removeTask = taskId => {
     this.setState({
-      tasks: this.state.tasks.filter(
-        task => taskId !== task.id
-      )
-    })
-  }
+      tasks: this.state.tasks.filter(task => taskId !== task.id)
+    });
+  };
+
+  // counter = count => {
+  //   this.setState({
+  //     count: this.state.task.length()
+  //   });
+  // };
 
   render() {
+    const count = this.state.tasks.length;
+
     return (
       <section className="todoapp">
         <div>
@@ -76,21 +96,32 @@ class App extends Component {
               {this.state.tasks.map(task => (
                 <li className={task.className} key={task.id}>
                   <div className="view">
-                    <input className="toggle" type="checkbox" />
-                    <label>{task.title}</label>
-                    <button className="destroy" onClick={() => this.removeTask(task.id)}/>
+                    <input
+                      className="toggle"
+                      type="checkbox"
+                      onClick={() => this.toggleTaskDone(task.id)}
+                    />
+                    {task.isDone ? (
+                      <label>
+                        <del>{task.title}</del>
+                      </label>
+                    ) : (
+                      <label>{task.title}</label>
+                    )}
+                    <button
+                      className="destroy"
+                      onClick={() => this.removeTask(task.id)}
+                    />
                   </div>
                   <input className="edit" value={task.title} />
                 </li>
               ))}
-
-              
             </ul>
           </section>
 
           <footer className="footer">
             <span className="todo-count">
-              <strong>2</strong>
+              <strong>{count}</strong>
               <span> </span>
               <span>items</span>
               <span> left</span>
