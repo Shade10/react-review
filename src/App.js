@@ -3,9 +3,9 @@ import React, { Component } from "react";
 class App extends Component {
   state = {
     tasks: [
-      { isDone: "done", task: "todo" },
-      { isDone: "edition", task: "work" },
-      { isDone: "normal", task: "big task" }
+      { className: "completed", title: "Be some" },
+      { className: "editing", title: "Home" },
+      { className: "", title: "Learn" }
     ],
     taskTitle: "",
     isDone: "",
@@ -21,6 +21,7 @@ class App extends Component {
       return;
     }
     // this.props.addTaskFunction(this.state.taskTitle);
+    this.addTask(this.state.taskTitle)
     this.setState({ taskTitle: "", error: null });
   };
 
@@ -30,11 +31,10 @@ class App extends Component {
     });
   };
 
-  addTask = (title, isDone) => {
+  addTask = title => {
     this.setState({
       tasks: this.state.tasks.concat({
-        title: title,
-        isDone: isDone
+        title: title
       })
     });
   };
@@ -46,7 +46,11 @@ class App extends Component {
           <header className="header">
             <h1>todos</h1>
             <form onSubmit={this.handleSubmit}>
-              {this.state.error && <p>{this.state.error.message}</p>}
+              {this.state.error ? (
+                <label>{this.state.error.message}</label>
+              ) : (
+                this.addTask
+              )}
               <input
                 className="new-todo"
                 placeholder="What needs to be done?"
@@ -60,30 +64,18 @@ class App extends Component {
             <input id="toggle-all" className="toggle-all" type="checkbox" />
             <label for="toggle-all" />
             <ul className="todo-list">
-              <li className="completed">
-                <div className="view">
-                  <input className="toggle" type="checkbox" />
-                  <label>Be awesome</label>
-                  <button className="destroy" />
-                </div>
-                <input className="edit" value="Be awesome" />
-              </li>
-              <li className="editing">
-                <div className="view">
-                  <input className="toggle" type="checkbox" />
-                  <label>Go home</label>
-                  <button className="destroy" />
-                </div>
-                <input className="edit" value="Go home" />
-              </li>
-              <li className="">
-                <div className="view">
-                  <input className="toggle" type="checkbox" />
-                  <label>Learn React</label>
-                  <button className="destroy" />
-                </div>
-                <input className="edit" value="Learn React" />
-              </li>
+              {this.state.tasks.map(task => (
+                <li className={task.className}>
+                  <div className="view">
+                    <input className="toggle" type="checkbox" />
+                    <label>{task.title}</label>
+                    <button className="destroy" />
+                  </div>
+                  <input className="edit" value={task.title} />
+                </li>
+              ))}
+
+              
             </ul>
           </section>
 
@@ -101,13 +93,17 @@ class App extends Component {
                   All
                 </a>
               </li>
+
               <span> </span>
+
               <li>
                 <a href="#/active" className="">
                   Active
                 </a>
               </li>
+
               <span> </span>
+
               <li>
                 <a href="#/completed" className="">
                   Completed
