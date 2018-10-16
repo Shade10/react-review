@@ -1,20 +1,61 @@
 import React, { Component } from "react";
 
 class App extends Component {
+  state = {
+    tasks: [
+      { isDone: "done", task: "todo" },
+      { isDone: "edition", task: "work" },
+      { isDone: "normal", task: "big task" }
+    ],
+    taskTitle: "",
+    isDone: "",
+    error: null
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    if (this.state.taskTitle === "") {
+      this.setState({
+        error: new Error("Sorry we need task title to make it work")
+      });
+      return;
+    }
+    // this.props.addTaskFunction(this.state.taskTitle);
+    this.setState({ taskTitle: "", error: null });
+  };
+
+  handleChange = event => {
+    this.setState({
+      taskTitle: event.target.value
+    });
+  };
+
+  addTask = (title, isDone) => {
+    this.setState({
+      tasks: this.state.tasks.concat({
+        title: title,
+        isDone: isDone
+      })
+    });
+  };
+
   render() {
     return (
       <section className="todoapp">
         <div>
           <header className="header">
             <h1>todos</h1>
-            <form>
+            <form onSubmit={this.handleSubmit}>
+              {this.state.error && <p>{this.state.error.message}</p>}
               <input
                 className="new-todo"
                 placeholder="What needs to be done?"
-                value=""
+                value={this.state.taskTitle}
+                onChange={this.handleChange}
               />
             </form>
           </header>
+
           <section className="main">
             <input id="toggle-all" className="toggle-all" type="checkbox" />
             <label for="toggle-all" />
@@ -45,6 +86,7 @@ class App extends Component {
               </li>
             </ul>
           </section>
+
           <footer className="footer">
             <span className="todo-count">
               <strong>2</strong>
@@ -52,6 +94,7 @@ class App extends Component {
               <span>items</span>
               <span> left</span>
             </span>
+
             <ul className="filters">
               <li>
                 <a href="#/" className="selected">
